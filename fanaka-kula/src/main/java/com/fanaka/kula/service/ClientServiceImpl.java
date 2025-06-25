@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             Client client = clientDao.getClientByPhone(phoneNumber);
             return client != null;
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -30,7 +30,7 @@ public class ClientServiceImpl implements ClientService {
         try {
             Client client = clientDao.getClientByNrcNumber(nrcNumber);
             return client != null;
-        } catch (NoResultException e) {
+        } catch (Exception e) {
             return false;
         }
     }

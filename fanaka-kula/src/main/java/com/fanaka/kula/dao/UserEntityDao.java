@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserEntityDao {
     UserEntity createUserEntity(UserEntity userEntity);
+    UserEntity updateUserEntity(UserEntity userEntity);
     UserEntity getUserEntityById(Long id);
     UserEntity getUserEntityByEmail(String email);
     UserEntity getUserEntityByPhone(String phone);

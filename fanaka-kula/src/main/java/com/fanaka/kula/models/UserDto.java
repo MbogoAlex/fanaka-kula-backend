@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +26,5 @@ public class UserDto {
     private String city;
     private String gender;
     private String photo;
+    private List<String> roles;
 }

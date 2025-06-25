@@ -4,6 +4,7 @@ import com.fanaka.kula.dao.RoleDao;
 import com.fanaka.kula.dao.UserEntityDao;
 import com.fanaka.kula.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +16,19 @@ public class UserServiceImpl implements UserService {
     private final UserEntityDao userEntityDao;
     private final UserMapper userMapper;
     private final RoleDao roleDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(
             UserEntityDao userEntityDao,
             UserMapper userMapper,
-            RoleDao roleDao
+            RoleDao roleDao,
+            PasswordEncoder passwordEncoder
     ) {
         this.userEntityDao = userEntityDao;
         this.userMapper = userMapper;
         this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -36,8 +40,11 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = UserEntity.builder()
                 .phone(userCreationDto.getPhoneNumber())
                 .username(userCreationDto.getUsername())
-                .password(userCreationDto.getPassword())
+                .email(userCreationDto.getEmail())
+                .password(passwordEncoder.encode(userCreationDto.getPassword()))
                 .roles(roleSet)
+                .enableGoogle2fa(false)
+                .name(userCreationDto.getUsername())
                 .build();
 
         return userMapper.userToUserDto(userEntityDao.createUserEntity(userEntity));

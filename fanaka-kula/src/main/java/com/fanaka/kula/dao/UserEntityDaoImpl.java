@@ -26,6 +26,12 @@ public class UserEntityDaoImpl implements UserEntityDao{
     }
 
     @Override
+    public UserEntity updateUserEntity(UserEntity userEntity) {
+        entityManager.merge(userEntity);
+        return userEntity;
+    }
+
+    @Override
     public UserEntity getUserEntityById(Long id) {
         TypedQuery<UserEntity> query = entityManager.createQuery("from UserEntity where id = :id", UserEntity.class);
         query.setParameter("id", id);
