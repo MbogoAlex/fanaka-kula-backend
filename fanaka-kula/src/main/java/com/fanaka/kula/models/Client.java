@@ -13,134 +13,145 @@ import java.time.LocalDateTime;
 @Builder
 public class Client {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;                         // bigint unsigned
 
     @Column(name = "region_id")
-    private Long regionId;                   // bigint unsigned
+    private Long regionId;
 
     @Column(name = "district_id")
-    private Long districtId;                 // bigint unsigned
+    private Long districtId;
 
     @Column(name = "created_by_id")
-    private Long createdById;                // bigint unsigned
+    private Long createdById;
 
     @Column(name = "branch_id")
-    private Long branchId;                   // bigint unsigned
+    private Long branchId;
 
     @Column(name = "loan_officer_id")
-    private Long loanOfficerId;              // bigint unsigned
+    private Long loanOfficerId;
 
-    private String reference;                // varchar(191)
+    private String reference;
 
     @Column(name = "account_number")
-    private String accountNumber;            // varchar(191)
+    private String accountNumber;
 
     @Column(name = "first_name")
-    private String firstName;                // varchar(191)
+    private String firstName;
 
     @Column(name = "middle_name")
-    private String middleName;               // varchar(191)
+    private String middleName;
 
     @Column(name = "last_name")
-    private String lastName;                 // varchar(191)
+    private String lastName;
 
-    private String gender;                   // enum → String (e.g. “male”)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = true, columnDefinition = "enum('male','female','other','unspecified')")
+    private Gender gender;
 
-    @Column(nullable = false)
-    private String status;                   // enum, NOT NULL
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "enum('pending','active','inactive','deceased','unspecified','closed')")
+    private ClientStatus status;
 
-    @Column(name = "marital_status")
-    private String maritalStatus;            // enum
+    @Enumerated(EnumType.STRING)
+    @Column(name = "marital_status", nullable = true,
+            columnDefinition = "enum('married','single','divorced','widowed','unspecified','other')")
+    private MaritalStatus maritalStatus;
 
     @Column(name = "country_id")
-    private Long countryId;                  // bigint unsigned
+    private Long countryId;
 
     @Column(name = "title_id")
-    private Long titleId;                    // bigint unsigned
+    private Long titleId;
 
     @Column(name = "profession_id")
-    private Long professionId;               // bigint unsigned
+    private Long professionId;
 
     @Column(name = "client_type_id")
-    private Long clientTypeId;               // bigint unsigned
+    private Long clientTypeId;
 
-    private String mobile;                   // varchar(191)
-
-    private String phone;                    // varchar(191)
-
-    private String email;                    // varchar(191)
+    private String mobile;
+    private String phone;
+    private String email;
 
     @Column(name = "external_id")
-    private String externalId;               // varchar(191)
+    private String externalId;
 
-    private LocalDate dob;                   // DATE
-
-    @Column(columnDefinition = "TEXT")
-    private String address;                  // text
-
-    private String city;                     // varchar(191)
-
-    private String state;                    // varchar(191)
-
-    private String zip;                      // varchar(191)
-
-    private String employer;                 // varchar(191)
-
-    private String photo;                    // varchar(191)
+    private LocalDate dob;
 
     @Column(columnDefinition = "TEXT")
-    private String notes;                    // text
+    private String address;
+
+    private String city;
+    private String state;
+    private String zip;
+    private String employer;
+    private String photo;
 
     @Column(columnDefinition = "TEXT")
-    private String signature;                // text
+    private String notes;
+
+    @Column(columnDefinition = "TEXT")
+    private String signature;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;           // DATE
+    private LocalDate createdDate;
 
     @Column(name = "joined_date")
-    private LocalDate joinedDate;            // DATE
+    private LocalDate joinedDate;
 
     @Column(name = "activation_date")
-    private LocalDate activationDate;        // DATE
+    private LocalDate activationDate;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;         // TIMESTAMP
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;         // TIMESTAMP
+    private LocalDateTime updatedAt;
 
     @Column(name = "nrc_number")
-    private String nrcNumber;                // varchar(255)
+    private String nrcNumber;
 
     @Column(name = "nrc_back")
-    private String nrcBack;                  // varchar(191)
+    private String nrcBack;
 
     @Column(name = "nrc_front")
-    private String nrcFront;                 // varchar(191)
+    private String nrcFront;
 
     @Column(name = "spouse_name")
-    private String spouseName;               // varchar(191)
+    private String spouseName;
 
     @Column(name = "spouse_phone")
-    private String spousePhone;              // varchar(191)
+    private String spousePhone;
 
     @Column(name = "highest_education")
-    private String highestEducation;         // varchar(191)
+    private String highestEducation;
 
-    private String dependants;               // varchar(191)
-
-    private String occupation;               // varchar(191)
+    private String dependants;
+    private String occupation;
 
     @Column(name = "phone_type")
-    private String phoneType;                // varchar(191)
+    private String phoneType;
 
     @Column(name = "uses_mobile_money")
-    private String usesMobileMoney;          // varchar(191)
+    private String usesMobileMoney;
 
     @Column(name = "mobile_money_type")
-    private String mobileMoneyType;          // varchar(191)
+    private String mobileMoneyType;
 
-    private String age;                      // varchar(191)
+    private String age;
+
+    // --- ENUM TYPES ---
+
+    public enum Gender {
+        male, female, other, unspecified
+    }
+
+    public enum ClientStatus {
+        pending, active, inactive, deceased, unspecified, closed
+    }
+
+    public enum MaritalStatus {
+        married, single, divorced, widowed, unspecified, other
+    }
 }
