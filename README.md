@@ -1,1 +1,1 @@
-# wazipay-backend
+# fanaka-kula-backend
