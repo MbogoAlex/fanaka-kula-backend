@@ -2,6 +2,7 @@ package com.fanaka.kula.service;
 
 import com.fanaka.kula.dao.ClientDao;
 import com.fanaka.kula.models.Client;
+import com.fanaka.kula.models.ExistsDto;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,23 +17,29 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Boolean clientExitsByPhone(String phoneNumber) {
+    public ExistsDto clientExitsByPhone(String phoneNumber) {
+        ExistsDto existsDto = new ExistsDto();
         try {
             Client client = clientDao.getClientByPhone(phoneNumber);
-            return client != null;
+            existsDto.setIsExists(client != null);
+            return existsDto;
         } catch (Exception e) {
-            return false;
+            existsDto.setIsExists(false);
+            return existsDto;
         }
     }
 
     @Override
-    public Boolean clientExitsByNrc(String nrcNumber) {
+    public ExistsDto clientExitsByNrc(String nrcNumber) {
+        ExistsDto existsDto = new ExistsDto();
         System.out.println("NRC::" + nrcNumber);
         try {
             Client client = clientDao.getClientByNrcNumber(nrcNumber.replaceFirst("/", ""));
-            return client != null;
+            existsDto.setIsExists(client != null);
+            return existsDto;
         } catch (Exception e) {
-            return false;
+            existsDto.setIsExists(false);
+            return existsDto;
         }
     }
 }

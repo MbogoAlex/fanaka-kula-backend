@@ -1,6 +1,8 @@
 package com.fanaka.kula.service;
 
+import com.fanaka.kula.models.ExistsDto;
+
 public interface ClientService {
-    Boolean clientExitsByPhone(String phoneNumber);
-    Boolean clientExitsByNrc(String nrcNumber);
+    ExistsDto clientExitsByPhone(String phoneNumber);
+    ExistsDto clientExitsByNrc(String nrcNumber);
 }

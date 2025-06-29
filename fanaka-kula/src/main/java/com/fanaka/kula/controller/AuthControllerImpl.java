@@ -4,10 +4,7 @@ import com.fanaka.kula.config.response.BuildResponse;
 import com.fanaka.kula.config.response.Response;
 import com.fanaka.kula.config.security.JWTGenerator;
 import com.fanaka.kula.dao.UserEntityDao;
-import com.fanaka.kula.models.UserCreationDto;
-import com.fanaka.kula.models.UserEntity;
-import com.fanaka.kula.models.UserLoginDto;
-import com.fanaka.kula.models.UserMapper;
+import com.fanaka.kula.models.*;
 import com.fanaka.kula.service.ClientService;
 import com.fanaka.kula.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,28 +61,32 @@ public class AuthControllerImpl implements AuthController{
 
     @PostMapping("user-account")
     @Override
-    public ResponseEntity<Response> createUserEntity(@RequestBody UserCreationDto userCreationDto) {
-        Boolean userExists = userService.userExistsByPhoneNumber(userCreationDto.getPhoneNumber());
-        Boolean clientExists = clientService.clientExitsByPhone(userCreationDto.getPhoneNumber());
+    public ResponseEntity<Object> createUserEntity(@RequestBody UserCreationDto userCreationDto) {
+        ExistsDto userExists = userService.userExistsByPhoneNumber(userCreationDto.getPhoneNumber());
+        ExistsDto clientExists = clientService.clientExitsByPhone(userCreationDto.getPhoneNumber());
 
         System.out.println("userExists : " + userExists);
         System.out.println("clientExists : " + clientExists);
         System.out.println("userCreationDto : " + userCreationDto);
 
-        if(userExists) {
-            return buildResponse.createResponse("user-account", null, "User account for this client already created", HttpStatus.BAD_REQUEST);
+        if(userExists.getIsExists()) {
+            Map<String, Object> errors = new HashMap<>();
+            errors.put("error", "User account for this client already created");
+            return buildResponse.error("Account creation failed", errors, HttpStatus.CONFLICT);
         }
 
-        if(clientExists) {
-            return buildResponse.createResponse("user-account", userService.createUser(userCreationDto), "User account created", HttpStatus.CREATED);
+        if(clientExists.getIsExists()) {
+            return buildResponse.success(userService.createUser(userCreationDto),  "User account created", null, HttpStatus.CREATED);
         }
 
-        return buildResponse.createResponse("user-account", null, "Client with this phone number does not exist. The client needs to be onboarded by the FE first", HttpStatus.BAD_REQUEST);
+        Map<String, Object> errors = new HashMap<>();
+        errors.put("error", "Client with this phone number does not exist. The client needs to be onboarded by the FE first");
+        return buildResponse.error("Account creation failed", errors, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("login")
     @Transactional
-    public ResponseEntity<Response> login(
+    public ResponseEntity<Object> login(
             @RequestBody UserLoginDto userLoginDto) {
         try {
 
@@ -109,16 +110,18 @@ public class AuthControllerImpl implements AuthController{
             data.put("user", userMapper.userToUserDto(userEntity));
             data.put("token", token);
 
-            return buildResponse.createResponse(
-                    "user-login",
+            return buildResponse.success(
                     data,
                     "User logged in",
+                    null,
                     HttpStatus.OK
             );
         } catch (Exception e) {
-            return buildResponse.createResponse(
-                    null, null,
-                    "Invalid credentials",
+            Map<String, Object> errors = new HashMap<>();
+            errors.put("error", "Invalid credentials");
+            return buildResponse.error(
+                    "Login failed",
+                    errors,
                     HttpStatus.UNAUTHORIZED
             );
         }

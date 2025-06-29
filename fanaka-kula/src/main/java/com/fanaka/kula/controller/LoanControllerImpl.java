@@ -37,16 +37,16 @@ public class LoanControllerImpl implements LoanController{
 
     @GetMapping("loan/user")
     @Override
-    public ResponseEntity<Response> getClientLoans(
+    public ResponseEntity<Object> getClientLoans(
             @AuthenticationPrincipal User user
     ) {
         UserDto userDto = userService.getUserByPhone(user.getUsername());
-        return buildResponse.createResponse("loans", loanService.getClientLoans(userDto.getId()), "User loans fetched", HttpStatus.OK);
+        return buildResponse.success(loanService.getClientLoans(userDto.getId()),"User loans fetched",  null, HttpStatus.OK);
     }
 
     @GetMapping("loan/id/{loanId}")
     @Override
-    public ResponseEntity<Response> getLoan(@PathVariable("loanId") Long loanId) {
-        return buildResponse.createResponse("loan", loanService.getLoan(loanId), "loan fetched", HttpStatus.OK);
+    public ResponseEntity<Object> getLoan(@PathVariable("loanId") Long loanId) {
+        return buildResponse.success(loanService.getLoan(loanId),   "loan fetched", null, HttpStatus.OK);
     }
 }

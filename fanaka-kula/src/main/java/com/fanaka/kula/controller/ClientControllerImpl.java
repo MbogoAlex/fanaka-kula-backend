@@ -29,13 +29,13 @@ public class ClientControllerImpl implements ClientController{
 
     @GetMapping("client-exists/phone/{phone}")
     @Override
-    public ResponseEntity<Response> clientExitsByPhone(@PathVariable("phone") String phoneNumber) {
-        return buildResponse.createResponse("client-exists", clientService.clientExitsByPhone(phoneNumber), "client check", HttpStatus.OK);
+    public ResponseEntity<Object> clientExitsByPhone(@PathVariable("phone") String phoneNumber) {
+        return buildResponse.success(clientService.clientExitsByPhone(phoneNumber),"client exists check", null, HttpStatus.OK);
     }
 
     @GetMapping("/client-exists/nrc/{*nrc}")
     @Override
-    public ResponseEntity<Response> clientExitsByNrc(@PathVariable("nrc") String nrcNumber) {
-        return buildResponse.createResponse("client-exists", clientService.clientExitsByNrc(nrcNumber), "client check", HttpStatus.OK);
+    public ResponseEntity<Object> clientExitsByNrc(@PathVariable("nrc") String nrcNumber) {
+        return buildResponse.success(clientService.clientExitsByNrc(nrcNumber),"client exists check", null, HttpStatus.OK);
     }
 }

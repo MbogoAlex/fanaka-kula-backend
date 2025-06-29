@@ -1,5 +1,6 @@
 package com.fanaka.kula.service;
 
+import com.fanaka.kula.models.ExistsDto;
 import com.fanaka.kula.models.UserCreationDto;
 import com.fanaka.kula.models.UserDto;
 
@@ -9,5 +10,5 @@ public interface UserService {
     UserDto getUserByEmail(String email);
     UserDto getUserByPhone(String phone);
     UserDto getUserByUsername(String username);
-    Boolean userExistsByPhoneNumber(String phoneNumber);
+    ExistsDto userExistsByPhoneNumber(String phoneNumber);
 }

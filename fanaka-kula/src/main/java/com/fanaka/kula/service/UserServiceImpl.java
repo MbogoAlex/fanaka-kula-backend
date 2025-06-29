@@ -93,12 +93,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean userExistsByPhoneNumber(String phoneNumber) {
+    public ExistsDto userExistsByPhoneNumber(String phoneNumber) {
+        ExistsDto existsDto = new ExistsDto();
         try {
             UserEntity userEntity = userEntityDao.getUserEntityByPhone(phoneNumber);
-            return userEntity != null;
+            existsDto.setIsExists(userEntity != null);
+            return existsDto;
         } catch (Exception e) {
-            return false;
+            existsDto.setIsExists(false);
+            return existsDto;
         }
     }
 }

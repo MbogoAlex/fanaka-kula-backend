@@ -9,6 +9,6 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface LoanController {
-    ResponseEntity<Response> getClientLoans(@AuthenticationPrincipal User user);
-    ResponseEntity<Response> getLoan(Long loanId);
+    ResponseEntity<Object> getClientLoans(@AuthenticationPrincipal User user);
+    ResponseEntity<Object> getLoan(Long loanId);
 }

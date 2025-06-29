@@ -6,6 +6,6 @@ import com.fanaka.kula.models.UserLoginDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthController {
-    ResponseEntity<Response> createUserEntity(UserCreationDto userCreationDto);
-    ResponseEntity<Response> login(UserLoginDto userLoginDto);
+    ResponseEntity<Object> createUserEntity(UserCreationDto userCreationDto);
+    ResponseEntity<Object> login(UserLoginDto userLoginDto);
 }
