@@ -3,6 +3,7 @@ package com.fanaka.kula.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -16,8 +17,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "is_system")
-    private String isSystem;
+    @Column(name = "is_system", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private Boolean isSystem;
 
     @Column(name = "name")
     private String name;
@@ -26,10 +27,10 @@ public class Role {
     private String guardName;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private String updatedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @ToString.Exclude @EqualsAndHashCode.Exclude

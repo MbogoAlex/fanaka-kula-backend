@@ -179,10 +179,10 @@ public class Loan {
             columnDefinition = "enum('day','week','month','year','principal')")
     private InterestRateType interestRateType;
 
-    @Column(name = "enable_balloon_payments", nullable = false)
+    @Column(name = "enable_balloon_payments", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean enableBalloonPayments = false;
 
-    @Column(name = "allow_schedule_adjustments", nullable = false)
+    @Column(name = "allow_schedule_adjustments", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean allowScheduleAdjustments = false;
 
     @Column(name = "grace_on_principal_paid", nullable = false)
@@ -194,10 +194,10 @@ public class Loan {
     @Column(name = "grace_on_interest_charged", nullable = false)
     private Integer graceOnInterestCharged = 0;
 
-    @Column(name = "allow_custom_grace_period", nullable = false)
+    @Column(name = "allow_custom_grace_period", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean allowCustomGracePeriod = false;
 
-    @Column(name = "allow_topup", nullable = false)
+    @Column(name = "allow_topup", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean allowTopup = false;
 
     @Enumerated(EnumType.STRING)
@@ -205,7 +205,7 @@ public class Loan {
             columnDefinition = "enum('flat','declining_balance')")
     private InterestMethodology interestMethodology;
 
-    @Column(name = "interest_recalculation", nullable = false)
+    @Column(name = "interest_recalculation", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean interestRecalculation = false;
 
     @Enumerated(EnumType.STRING)
@@ -226,19 +226,19 @@ public class Loan {
     @Column(name = "days_in_month", columnDefinition = "enum('actual','30','31')")
     private DaysInMonth daysInMonth = DaysInMonth.actual;
 
-    @Column(name = "include_in_loan_cycle", nullable = false)
+    @Column(name = "include_in_loan_cycle", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean includeInLoanCycle = false;
 
-    @Column(name = "lock_guarantee_funds", nullable = false)
+    @Column(name = "lock_guarantee_funds", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean lockGuaranteeFunds = false;
 
-    @Column(name = "auto_allocate_overpayments", nullable = false)
+    @Column(name = "auto_allocate_overpayments", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean autoAllocateOverpayments = false;
 
-    @Column(name = "allow_additional_charges", nullable = false)
+    @Column(name = "allow_additional_charges", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean allowAdditionalCharges = false;
 
-    @Column(name = "auto_disburse", nullable = false)
+    @Column(name = "auto_disburse", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean autoDisburse = false;
 
     @Enumerated(EnumType.STRING)
@@ -259,7 +259,7 @@ public class Loan {
 
     private String classification;
 
-    @Column(name = "deduct_interest_from_principal", nullable = false)
+    @Column(name = "deduct_interest_from_principal", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean deductInterestFromPrincipal = false;
 
     @Column(name = "loan_provisioning_id")
@@ -277,7 +277,10 @@ public class Loan {
     @Column(name = "last_repayment_id")
     private Long lastRepaymentId;
 
+    @Column(name = "repayment_schedule")
     private String repaymentSchedule;
+
+    @Column(name = "onboarding_stage")
     private String onboardingStage;
 
     @Column(name = "put_on_hold_date")

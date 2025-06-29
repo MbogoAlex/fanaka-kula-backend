@@ -58,7 +58,7 @@ public class UserEntity {
 
     private String gender;                        // varchar(191)
 
-    @Column(name = "enable_google2fa", nullable = false)
+    @Column(name = "enable_google2fa", nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean enableGoogle2fa;              // tinyint → Boolean
 
     @Column(name = "google2fa_secret", columnDefinition = "TEXT")
