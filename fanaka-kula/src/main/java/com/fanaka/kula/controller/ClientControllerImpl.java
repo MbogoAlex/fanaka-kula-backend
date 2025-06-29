@@ -33,7 +33,7 @@ public class ClientControllerImpl implements ClientController{
         return buildResponse.createResponse("client-exists", clientService.clientExitsByPhone(phoneNumber), "client check", HttpStatus.OK);
     }
 
-    @GetMapping("client-exists/nrc/{nrc}")
+    @GetMapping("/client-exists/nrc/{*nrc}")
     @Override
     public ResponseEntity<Response> clientExitsByNrc(@PathVariable("nrc") String nrcNumber) {
         return buildResponse.createResponse("client-exists", clientService.clientExitsByNrc(nrcNumber), "client check", HttpStatus.OK);

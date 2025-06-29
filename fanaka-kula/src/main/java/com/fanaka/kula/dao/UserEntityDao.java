@@ -15,4 +15,5 @@ public interface UserEntityDao {
     UserEntity getUserEntityByUsernameAndEmail(String username, String email);
     UserEntity getUserEntityByEmailAndUsername(String email, String username);
     List<UserEntity> getUsers();
+    String findPhoneById(Long id);
 }

@@ -9,4 +9,5 @@ public interface UserService {
     UserDto getUserByEmail(String email);
     UserDto getUserByPhone(String phone);
     UserDto getUserByUsername(String username);
+    Boolean userExistsByPhoneNumber(String phoneNumber);
 }

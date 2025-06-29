@@ -25,6 +25,7 @@ public class LoanDaoImpl implements LoanDao{
         return query.getSingleResult();
     }
 
+
     @Override
     public List<Loan> getLoansByClientID(Long clientId) {
         TypedQuery<Loan> query = entityManager.createQuery("from Loan where client.id = :clientId", Loan.class);

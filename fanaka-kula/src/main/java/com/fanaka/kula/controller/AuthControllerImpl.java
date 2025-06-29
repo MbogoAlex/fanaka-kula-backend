@@ -18,11 +18,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,9 +65,18 @@ public class AuthControllerImpl implements AuthController{
     @PostMapping("user-account")
     @Override
     public ResponseEntity<Response> createUserEntity(@RequestBody UserCreationDto userCreationDto) {
-        Boolean exists = clientService.clientExitsByPhone(userCreationDto.getPhoneNumber());
+        Boolean userExists = userService.userExistsByPhoneNumber(userCreationDto.getPhoneNumber());
+        Boolean clientExists = clientService.clientExitsByPhone(userCreationDto.getPhoneNumber());
 
-        if(exists) {
+        System.out.println("userExists : " + userExists);
+        System.out.println("clientExists : " + clientExists);
+        System.out.println("userCreationDto : " + userCreationDto);
+
+        if(userExists) {
+            return buildResponse.createResponse("user-account", null, "User account for this client already created", HttpStatus.BAD_REQUEST);
+        }
+
+        if(clientExists) {
             return buildResponse.createResponse("user-account", userService.createUser(userCreationDto), "User account created", HttpStatus.CREATED);
         }
 
@@ -73,20 +84,26 @@ public class AuthControllerImpl implements AuthController{
     }
 
     @PostMapping("login")
+    @Transactional
     public ResponseEntity<Response> login(
             @RequestBody UserLoginDto userLoginDto) {
         try {
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             userLoginDto.getPhoneNumber(),
                             userLoginDto.getPassword()
                     )
             );
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String token = jwtGenerator.generateToken(authentication);
 
             UserEntity userEntity =
                     userEntityDao.getUserEntityByPhone(userLoginDto.getPhoneNumber());
+            userEntity.setLastLogin(LocalDateTime.now());
+            userEntityDao.updateUserEntity(userEntity);
+
 
             Map<Object,Object> data = new HashMap<>();
             data.put("user", userMapper.userToUserDto(userEntity));

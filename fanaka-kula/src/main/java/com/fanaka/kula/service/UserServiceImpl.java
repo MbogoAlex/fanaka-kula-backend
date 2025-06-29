@@ -1,5 +1,6 @@
 package com.fanaka.kula.service;
 
+import com.fanaka.kula.dao.ClientDao;
 import com.fanaka.kula.dao.RoleDao;
 import com.fanaka.kula.dao.UserEntityDao;
 import com.fanaka.kula.models.*;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final UserEntityDao userEntityDao;
     private final UserMapper userMapper;
     private final RoleDao roleDao;
+    private final ClientDao clientDao;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -23,11 +26,13 @@ public class UserServiceImpl implements UserService {
             UserEntityDao userEntityDao,
             UserMapper userMapper,
             RoleDao roleDao,
+            ClientDao clientDao,
             PasswordEncoder passwordEncoder
     ) {
         this.userEntityDao = userEntityDao;
         this.userMapper = userMapper;
         this.roleDao = roleDao;
+        this.clientDao = clientDao;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -35,16 +40,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserCreationDto userCreationDto) {
         Role role = roleDao.getRoleByName("client");
+        Client client = clientDao.getClientByPhone(userCreationDto.getPhoneNumber());
+
+        String fName = client.getFirstName();
+        String lName = client.getLastName();
+        String name = fName + " " + lName;
+        String email = client.getEmail();
+
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
         UserEntity userEntity = UserEntity.builder()
                 .phone(userCreationDto.getPhoneNumber())
+                .firstName(fName)
+                .lastName(lName)
+                .name(name)
                 .username(userCreationDto.getUsername())
-                .email(userCreationDto.getEmail())
+                .email(email)
                 .password(passwordEncoder.encode(userCreationDto.getPassword()))
                 .roles(roleSet)
                 .enableGoogle2fa(false)
                 .name(userCreationDto.getUsername())
+                .createdAt(LocalDateTime.now())
+                .createdById(client.getCreatedById())
+                .address(client.getAddress())
+                .city(client.getCity())
+                .gender(String.valueOf(client.getGender()))
+                .regionId(client.getRegionId())
+                .districtId(client.getDistrictId())
                 .build();
 
         return userMapper.userToUserDto(userEntityDao.createUserEntity(userEntity));
@@ -68,5 +90,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByUsername(String username) {
         return userMapper.userToUserDto(userEntityDao.getUserEntityByUsername(username));
+    }
+
+    @Override
+    public Boolean userExistsByPhoneNumber(String phoneNumber) {
+        try {
+            UserEntity userEntity = userEntityDao.getUserEntityByPhone(phoneNumber);
+            return userEntity != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

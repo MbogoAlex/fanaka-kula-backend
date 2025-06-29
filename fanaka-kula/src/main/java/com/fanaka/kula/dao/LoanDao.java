@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface LoanDao {
     Loan getLoanByID(Long id);
+
     List<Loan> getLoansByClientID(Long clientId);
 }

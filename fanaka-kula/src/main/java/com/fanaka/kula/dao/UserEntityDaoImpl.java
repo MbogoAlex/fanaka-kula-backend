@@ -80,4 +80,12 @@ public class UserEntityDaoImpl implements UserEntityDao{
         TypedQuery<UserEntity> query = entityManager.createQuery("from UserEntity", UserEntity.class);
         return query.getResultList();
     }
+
+    @Override
+    public String findPhoneById(Long id) {
+        return entityManager
+                .createQuery("select u.phone from UserEntity u where u.id = :id", String.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
 }

@@ -27,8 +27,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Boolean clientExitsByNrc(String nrcNumber) {
+        System.out.println("NRC::" + nrcNumber);
         try {
-            Client client = clientDao.getClientByNrcNumber(nrcNumber);
+            Client client = clientDao.getClientByNrcNumber(nrcNumber.replaceFirst("/", ""));
             return client != null;
         } catch (Exception e) {
             return false;

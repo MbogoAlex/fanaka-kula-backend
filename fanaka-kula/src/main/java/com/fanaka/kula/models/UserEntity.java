@@ -18,7 +18,7 @@ public class UserEntity {
     private Long id;                              // bigint unsigned
 
     @Column(name = "created_by_id")
-    private Integer createdById;                  // int
+    private Long createdById;                  // int
 
     @Column(name = "branch_id")
     private Integer branchId;                     // int
@@ -90,7 +90,7 @@ public class UserEntity {
     @Column(name = "district_id")
     private Long districtId;                      // bigint unsigned
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "model_has_roles",
             joinColumns = @JoinColumn(name = "model_id", referencedColumnName = "id"),
