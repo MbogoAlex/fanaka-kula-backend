@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
                 .name(name)
                 .username(userCreationDto.getUsername())
                 .email(email)
-                .password(passwordEncoder.encode(userCreationDto.getPassword()))
+                .password(passwordEncoder.encode(userCreationDto.getPin()))
                 .roles(roleSet)
                 .enableGoogle2fa(false)
                 .name(userCreationDto.getUsername())

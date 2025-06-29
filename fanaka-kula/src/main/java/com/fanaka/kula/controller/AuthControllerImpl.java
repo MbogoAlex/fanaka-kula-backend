@@ -1,7 +1,6 @@
 package com.fanaka.kula.controller;
 
 import com.fanaka.kula.config.response.BuildResponse;
-import com.fanaka.kula.config.response.Response;
 import com.fanaka.kula.config.security.JWTGenerator;
 import com.fanaka.kula.dao.UserEntityDao;
 import com.fanaka.kula.models.*;
@@ -69,6 +68,12 @@ public class AuthControllerImpl implements AuthController{
         System.out.println("clientExists : " + clientExists);
         System.out.println("userCreationDto : " + userCreationDto);
 
+        if(userCreationDto.getPin().length() != 4) {
+            Map<String, Object> errors = new HashMap<>();
+            errors.put("error", "Pin must be 4 digits");
+            return buildResponse.error("Account creation failed", errors, HttpStatus.BAD_REQUEST);
+        }
+
         if(userExists.getIsExists()) {
             Map<String, Object> errors = new HashMap<>();
             errors.put("error", "User account for this client already created");
@@ -93,7 +98,7 @@ public class AuthControllerImpl implements AuthController{
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             userLoginDto.getPhoneNumber(),
-                            userLoginDto.getPassword()
+                            userLoginDto.getPin()
                     )
             );
 

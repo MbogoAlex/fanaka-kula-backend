@@ -14,5 +14,5 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserLoginDto {
     private String phoneNumber;
-    private String password;
+    private String pin;
 }

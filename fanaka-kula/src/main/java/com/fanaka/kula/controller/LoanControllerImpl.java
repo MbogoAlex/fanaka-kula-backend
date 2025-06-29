@@ -1,7 +1,6 @@
 package com.fanaka.kula.controller;
 
 import com.fanaka.kula.config.response.BuildResponse;
-import com.fanaka.kula.config.response.Response;
 import com.fanaka.kula.models.UserDto;
 import com.fanaka.kula.service.LoanService;
 import com.fanaka.kula.service.UserService;

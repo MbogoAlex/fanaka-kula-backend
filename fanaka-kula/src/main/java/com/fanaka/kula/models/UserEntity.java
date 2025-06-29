@@ -93,10 +93,10 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "model_has_roles",
-            joinColumns = @JoinColumn(name = "model_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "model_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @org.hibernate.annotations.WhereJoinTable(clause = "model_type = 'UserEntity'")
     @ToString.Exclude @EqualsAndHashCode.Exclude
     private Set<Role> roles;
+
 }

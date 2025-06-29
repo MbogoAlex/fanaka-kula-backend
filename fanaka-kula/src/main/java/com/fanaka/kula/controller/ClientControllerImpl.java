@@ -1,7 +1,6 @@
 package com.fanaka.kula.controller;
 
 import com.fanaka.kula.config.response.BuildResponse;
-import com.fanaka.kula.config.response.Response;
 import com.fanaka.kula.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

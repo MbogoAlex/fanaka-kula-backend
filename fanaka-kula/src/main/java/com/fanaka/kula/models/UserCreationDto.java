@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 public class UserCreationDto {
     private String phoneNumber;
     private String username;
-    private String password;
+    private String pin;
 }
