@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Client {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                         // bigint unsigned
+    private Long id;
 
     @Column(name = "region_id")
     private Long regionId;
@@ -140,8 +140,6 @@ public class Client {
     private String mobileMoneyType;
 
     private String age;
-
-    // --- ENUM TYPES ---
 
     public enum Gender {
         male, female, other, unspecified

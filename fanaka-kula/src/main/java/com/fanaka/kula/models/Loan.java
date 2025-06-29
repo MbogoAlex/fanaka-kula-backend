@@ -16,7 +16,7 @@ public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                         // bigint unsigned
+    private Long id;
 
     @Column(name = "created_by_id")
     private Long createdById;
@@ -249,8 +249,6 @@ public class Loan {
     @Column(name = "disbursement_charges", precision = 65, scale = 6)
     private BigDecimal disbursementCharges;
 
-    // ... and all the derived BigDecimal fields as before …
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -292,7 +290,6 @@ public class Loan {
     @Column(name = "put_on_hold_notes", columnDefinition = "TEXT")
     private String putOnHoldNotes;
 
-    // --- lowercase enum definitions ---
     public enum ClientType { client, group }
     public enum RepaymentFrequencyType { days, weeks, months, years }
     public enum InterestRateType { day, week, month, year, principal }
